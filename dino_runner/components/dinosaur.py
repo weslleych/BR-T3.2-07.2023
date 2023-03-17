@@ -39,6 +39,9 @@ class Dinosaur:
             self.dino_jump = False
             self.dino_rect.y = Y_POS
             self.jump_vel = JUMP_VEL
+    
+    def duck():
+        pass
         
     
     def update(self, user_input):
@@ -51,8 +54,7 @@ class Dinosaur:
         if self.dino_run:
             self.run()
         elif self.dino_jump:
-            self.jump()
-                
+            self.jump()                
             
     
     def draw(self, screen):
