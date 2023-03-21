@@ -1,5 +1,3 @@
-import random
-
 from dino_runner.components.obstacles.obstacle import Obstacle2
 
 class BirdTop(Obstacle2):
