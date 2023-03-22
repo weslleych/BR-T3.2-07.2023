@@ -9,8 +9,18 @@ FPS = 30
 FONT_STYLE = "freesansbold.ttf"
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 
+pygame.mixer.init()
+
+
 # Assets Constants
 ICON = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png"))
+
+SPACE_BAR =  pygame.image.load(os.path.join(IMG_DIR, "Other/SpaceBar.png")) 
+
+SONGS = [
+    pygame.mixer.Sound(os.path.join(IMG_DIR, "song/more_100.wav")),
+    pygame.mixer.Sound(os.path.join(IMG_DIR, "song/jump_dino.wav"))
+]
 
 RUNNING = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1.png")),

@@ -1,6 +1,6 @@
 import pygame
 
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, FONT_STYLE
+from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, FONT_STYLE , SONGS
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 
@@ -17,6 +17,10 @@ class Game:
         self.x_pos_bg = 0
         self.y_pos_bg = 380
         self.death_count = 0
+        self.score = 0
+        self.score_song = SONGS[0]
+        self.score_song.set_volume (0.05)
+        
         
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
@@ -37,6 +41,12 @@ class Game:
             self.events()
             self.update()
             self.draw()
+    def game_continue(self):
+        self.obstacle_manager.reset_obstacle()
+    def reset_game(self):
+        self.obstacle_manager.reset_obstacle()
+        self.game_speed = 20
+        self.score = 0
         
 
     def events(self):
@@ -47,10 +57,22 @@ class Game:
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)       
-        
         self.obstacle_manager.update(self)
-        
+        self.update_score()
 
+    def update_score(self):
+        self.score +=1
+        self.lista_score = []
+        if self.score %100 == 0:
+            self.game_speed += 2
+            self.score_song.play()
+        if self.playing == False:
+            self.lista_score.append(self.score)
+            for points in self.lista_score:
+                self.show_score = points
+                
+            
+        
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
@@ -58,9 +80,17 @@ class Game:
         
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
-        
+        self.drawn_score()
         #pygame.display.update()
         pygame.display.flip()
+
+    def drawn_score(self):
+        font = pygame.font.Font(FONT_STYLE, 22)
+        text = font.render (f"score {self.score}", True,(0,0,0))
+        text_rect = text.get_rect()
+        text_rect.center = (1000, 50)
+        self.screen.blit(text, text_rect)
+
 
     def draw_background(self):
         image_width = BG.get_width()
@@ -77,18 +107,15 @@ class Game:
         half_screen_height = SCREEN_HEIGHT //2
         half_screen_width = SCREEN_WIDTH //2
 
+        font = pygame.font.Font(FONT_STYLE, 22)
         if self.death_count == 0:
-            font = pygame.font.Font(FONT_STYLE, 22)
-            text = font.render ("prees (s) to start playing", True,(0,0,0) )
-            text_rect = text.get_rect()
-            text_rect.center = (half_screen_height, half_screen_width)
-            self.screen.blit(text, text_rect)
+            texto = font.render (f"Prees (S) to start playing", True,(0,0,0))
         else:
-            font = pygame.font.Font(FONT_STYLE, 22)
-            text = font.render ("prees (c) to continue playing", True,(0,0,0) )
-            text_rect = text.get_rect()
-            text_rect.center = (half_screen_height, half_screen_width)
-            self.screen.blit(text, text_rect)
+            texto = font.render (f"Your score was {self.show_score}. Prees (c) to continue or (R) to restart game", True,(0,0,0))
+        text = texto
+        text_rect = text.get_rect()
+        text_rect.center = (half_screen_width, half_screen_height)
+        self.screen.blit(text, text_rect)
 
         pygame.display.update()
 
@@ -102,5 +129,12 @@ class Game:
             elif event.type == pygame.KEYDOWN:
                 if pygame.key.get_pressed()[pygame.K_s] and self.death_count == 0:
                     self.run()
-                elif pygame.key.get_pressed()[pygame.K_c]:
+                elif pygame.key.get_pressed()[pygame.K_r]:
+                    self.reset_game()
                     self.run()
+                elif pygame.key.get_pressed()[pygame.K_c]:
+                    self.game_continue()
+                    self.run()
+
+            
+    

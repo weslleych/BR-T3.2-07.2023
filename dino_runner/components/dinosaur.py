@@ -1,6 +1,6 @@
 import pygame
 
-from dino_runner.utils.constants import RUNNING, JUMPING, DUCKING
+from dino_runner.utils.constants import RUNNING, JUMPING, DUCKING, SONGS
 
 X_POS = 80
 Y_POS = 310
@@ -19,6 +19,9 @@ class Dinosaur:
         self.dino_duck = False
         self.step_index = 0
         self.jump_vel = JUMP_VEL
+
+        self.jump_song = SONGS[1]
+        self.jump_song.set_volume(0.05)
     
     def run(self):
         self.image = RUNNING[0] if self.step_index < 5 else RUNNING[1] #ternary operator 
@@ -54,6 +57,7 @@ class Dinosaur:
         if user_input[pygame.K_UP] and not self.dino_jump and not self.dino_duck:
             self.dino_jump = True
             self.dino_run = False
+            self.jump_song.play()
         elif not self.dino_jump:
             self.dino_run = True
         if user_input[pygame.K_DOWN] and not self.dino_jump:
