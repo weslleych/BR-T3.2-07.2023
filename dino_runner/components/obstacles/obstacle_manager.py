@@ -1,8 +1,8 @@
 import pygame
 import random
 
-from dino_runner.components.obstacles.cactus import SmallCactus, LargeCactus
-from dino_runner.components.obstacles.bird import BirdTop, BirdBottom, BirdMid 
+from dino_runner.components.obstacles.cactus import Cactus
+from dino_runner.components.obstacles.bird import Bird
 from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS, BIRD, SONGS
 
 class ObstacleManager:
@@ -11,21 +11,20 @@ class ObstacleManager:
          
     
     def update(self, game):
-        self.sorteador = random.randint(0,1)
-        self.sorteador2 = random.randint(0,1)
-        self.sorteador3 = random.randint(0,2)
-        if self.sorteador == 0 and len(self.obstacles) == 0:
-            if self.sorteador2 == 0:
-                self.obstacles.append(SmallCactus(SMALL_CACTUS))
-            if self.sorteador2 == 1:
-                self.obstacles.append(LargeCactus(LARGE_CACTUS))
+        self.sorteador = random.randint(0,2)
+        self.sorteador2 = random.randint(0,2)
+        if self.sorteador == 0 and len(self.obstacles) == 0:  
+            self.obstacles.append(Cactus(SMALL_CACTUS, 325))
         if self.sorteador == 1 and len(self.obstacles) == 0:
-            if self.sorteador3 == 0:
-                self.obstacles.append(BirdTop(BIRD))
-            if self.sorteador3 == 1:
-                self.obstacles.append(BirdMid(BIRD))  
-            if self.sorteador3 == 2:
-                self.obstacles.append(BirdBottom(BIRD))            
+            self.obstacles.append(Cactus(LARGE_CACTUS, 300))
+        if self.sorteador == 2 and len(self.obstacles) == 0:
+            if self.sorteador2 == 0:
+                self.obstacles.append(Bird(BIRD, 230))
+            if self.sorteador2 == 1:
+                self.obstacles.append(Bird(BIRD, 270))
+            if self.sorteador2 == 2:
+                self.obstacles.append(Bird(BIRD, 320))
+          
         for obstacle in self.obstacles:
             obstacle.update(game.game_speed, self.obstacles)
             

@@ -54,13 +54,13 @@ class Dinosaur:
     
     
     def update(self, user_input):
-        if user_input[pygame.K_UP] and not self.dino_jump and not self.dino_duck:
+        if (user_input[pygame.K_UP] or user_input[pygame.K_w]) and not self.dino_jump and not self.dino_duck:
             self.dino_jump = True
             self.dino_run = False
             self.jump_song.play()
         elif not self.dino_jump:
             self.dino_run = True
-        if user_input[pygame.K_DOWN] and not self.dino_jump:
+        if (user_input[pygame.K_DOWN] or user_input[pygame.K_LSHIFT] or user_input[pygame.K_s]) and not self.dino_jump:
             self.dino_duck = True
             self.dino_run = False
                    

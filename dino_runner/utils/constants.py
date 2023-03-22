@@ -84,7 +84,7 @@ SONGS = [
     pygame.mixer.music.load(os.path.join(IMG_DIR, "song/soundtrack.ogg"))
 ]
 
-CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
+CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Clouds/Cloud.png'))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
 
