@@ -29,12 +29,15 @@ class ObstacleManager:
             obstacle.update(game.game_speed, self.obstacles)
             
             if game.player.dino_rect.colliderect(obstacle.rect):
-                pygame.time.delay(500)
-                SONGS[2].set_volume (0.60)
-                SONGS[2].play()
-                game.playing = False
-                game.life_count-=1
-                break                
+                if not game.player.has_power_up:
+                    pygame.time.delay(500)
+                    SONGS[2].set_volume (0.60)
+                    SONGS[2].play()
+                    game.playing = False
+                    game.life_count-=1
+                    break
+                else:
+                    self.obstacles.remove(obstacle)         
         
     
     def draw(self, screen):
