@@ -3,7 +3,7 @@ import random
 
 from dino_runner.components.obstacles.cactus import SmallCactus, LargeCactus
 from dino_runner.components.obstacles.bird import BirdTop, BirdBottom, BirdMid 
-from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS, BIRD
+from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS, BIRD, SONGS
 
 class ObstacleManager:
     def __init__(self):
@@ -31,8 +31,10 @@ class ObstacleManager:
             
             if game.player.dino_rect.colliderect(obstacle.rect):
                 pygame.time.delay(500)
+                SONGS[2].set_volume (0.60)
+                SONGS[2].play()
                 game.playing = False
-                game.death_count+=1
+                game.life_count-=1
                 break                
         
     

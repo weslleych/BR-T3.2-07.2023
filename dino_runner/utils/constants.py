@@ -15,12 +15,17 @@ pygame.mixer.init()
 # Assets Constants
 ICON = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png"))
 
-SPACE_BAR =  pygame.image.load(os.path.join(IMG_DIR, "Other/SpaceBar.png")) 
+GAME_OVER = pygame.image.load(os.path.join(IMG_DIR, "Other/Game-Over.jpg"))
 
-SONGS = [
-    pygame.mixer.Sound(os.path.join(IMG_DIR, "song/more_100.wav")),
-    pygame.mixer.Sound(os.path.join(IMG_DIR, "song/jump_dino.wav"))
+SPACE_BAR =  [
+    pygame.image.load(os.path.join(IMG_DIR, "Other/SpaceBar.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Other/SpaceBar2.png"))
 ]
+
+MENUBG = pygame.image.load(os.path.join(IMG_DIR, "Other/menuBG.png"))
+
+DINO_CRY = pygame.image.load(os.path.join(IMG_DIR, "Other/cry_dino.png"))
+
 
 RUNNING = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun1.png")),
@@ -70,6 +75,13 @@ LARGE_CACTUS = [
 BIRD = [
     pygame.image.load(os.path.join(IMG_DIR, "Bird/Bird1.png")),
     pygame.image.load(os.path.join(IMG_DIR, "Bird/Bird2.png")),
+]
+
+SONGS = [
+    pygame.mixer.Sound(os.path.join(IMG_DIR, "song/more_100.wav")),
+    pygame.mixer.Sound(os.path.join(IMG_DIR, "song/jump_dino.wav")),
+    pygame.mixer.Sound(os.path.join(IMG_DIR, "song/dinoDie.wav")),
+    pygame.mixer.music.load(os.path.join(IMG_DIR, "song/soundtrack.ogg"))
 ]
 
 CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
