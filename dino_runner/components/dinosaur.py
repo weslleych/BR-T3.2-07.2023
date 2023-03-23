@@ -78,12 +78,12 @@ class Dinosaur:
         elif(user_input[pygame.K_DOWN] or user_input[pygame.K_LSHIFT] or user_input[pygame.K_s]) and self.dino_jump:
             self.jump_vel -=2
 
-        if user_input[pygame.K_RIGHT]:
+        if user_input[pygame.K_RIGHT] or user_input[pygame.K_d]:
             self.dino_rect.x +=10
             if self.dino_rect.x >= SCREEN_WIDTH-100:
                 self.dino_rect.x = SCREEN_WIDTH-100
             
-        elif user_input[pygame.K_LEFT]:
+        elif user_input[pygame.K_LEFT] or user_input[pygame.K_a]:
             self.dino_rect.x -=10
             if self.dino_rect.x <= 0:
                 self.dino_rect.x = 0
