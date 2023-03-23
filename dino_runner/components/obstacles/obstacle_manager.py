@@ -3,17 +3,18 @@ import random
 
 from dino_runner.components.obstacles.cactus import Cactus
 from dino_runner.components.obstacles.bird import Bird
-from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS, BIRD, SONGS
+from dino_runner.components.obstacles.metero import meteor
+from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS, BIRD, SONGS, METEOR
+
+
 
 class ObstacleManager:
     def __init__(self):
         self.obstacles = []
-        self.sorteador = random.randint(0,2)
-        self.sorteador2 = random.randint(0,2)
-        
+
     def update(self, game):
         if len(self.obstacles) ==0:
-            self.sorteador = random.randint(0,2)
+            self.sorteador = random.randint(0,3)
             self.sorteador2 = random.randint(0,2)
         if self.sorteador == 0 and len(self.obstacles) == 0:  
             self.obstacles.append(Cactus(SMALL_CACTUS, 325))
@@ -26,6 +27,9 @@ class ObstacleManager:
                 self.obstacles.append(Bird(BIRD, 270))
             if self.sorteador2 == 2:
                 self.obstacles.append(Bird(BIRD, 320))
+        if self.sorteador == 3 and len(self.obstacles) == 0:
+            self.obstacles.append(meteor(METEOR, random.randint(10,600)))
+
         for obstacle in self.obstacles:
             obstacle.update(game.game_speed, self.obstacles)
             
@@ -33,7 +37,9 @@ class ObstacleManager:
                 if game.player.has_power_up == True:
                     self.obstacles.remove(obstacle) 
                 elif game.player.has_hammer and (self.sorteador==0 or self.sorteador==1):
-                    self.obstacles.remove(obstacle)  
+                    self.obstacles.remove(obstacle) 
+                elif game.player.has_umbrella and self.sorteador==3:
+                    self.obstacles.remove(obstacle) 
 
                 else:   
                     pygame.time.delay(500)
