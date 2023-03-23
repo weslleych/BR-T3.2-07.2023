@@ -35,7 +35,7 @@ class Obstacle2:
 
         self.image = self.lista[0]
         self.rect = self.image.get_rect()
-        self.rect.y = -100
+        self.rect.y = -200
 
         self.boom = SONGS[4]
 
