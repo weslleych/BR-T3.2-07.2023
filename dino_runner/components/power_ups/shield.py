@@ -1,4 +1,4 @@
-from dino_runner.utils.constants import SHIELD, SHIELD_TYPE #SHIELD_Type seria inecessario
+from dino_runner.utils.constants import SHIELD, SHIELD_TYPE 
 from dino_runner.components.power_ups.power_up import PowerUp
 
 class Shield(PowerUp):

@@ -14,16 +14,19 @@ class Game:
         self.clock = pygame.time.Clock()
         self.playing = False
         self.executing = False
+
         self.game_speed = 20
         self.x_pos_bg = 0
         self.y_pos_bg = -12
+
         self.life_count = 3
+
         self.current_score = 0
         self.max_score = 0
-        self.contador = 0 #SpaceBar animation
         self.salvador = 0
         self.lista_score = []
-        
+
+        self.contador = 0 #SpaceBar animation
         
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
@@ -56,11 +59,10 @@ class Game:
 
     def game_continue(self):
         self.obstacle_manager.reset_obstacle()
-        self.player.dino_jump = False
+        self.player.dino_rect.x = 10
 
     def reset_game(self):
         self.obstacle_manager.reset_obstacle()
-        self.player.dino_jump = False
         self.game_speed = 20
         self.current_score = 0
         self.life_count = 3
@@ -78,7 +80,7 @@ class Game:
         self.obstacle_manager.update(self)
         self.power_up_manager.update(self)
         self.update_score()
-        self.draw_power_up_time()
+        
 
     def update_contador(self):
         self.contador += 1  #spaceBar animation
@@ -111,23 +113,42 @@ class Game:
 
         self.power_up_manager.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
-        
+        self.draw_power_up_time()
 
         pygame.display.flip()
 
+
+
     def draw_power_up_time(self):
-         if self.player.has_power_up:
+        if self.player.has_power_up or self.player.has_hammer:
             time_to_show = round((self.player.power_up_time_up - pygame.time.get_ticks())/1000, 2)
             if time_to_show >=0:
                 font = pygame.font.Font(FONT_STYLE, 22)
-                text = font.render(f"Power Up: {time_to_show}", True, (255,0,0))
+                text = font.render(f"Power Up: {time_to_show}", True, (85,85,85))
                 text_rect = text.get_rect()
                 text_rect.x = 425
                 text_rect.y = 100
                 self.screen.blit(text, text_rect)
             else:
-                self.player.has_power_up = False
+                if self.player.has_power_up:
+                    self.player.has_power_up = False
+                elif self.player.has_hammer:
+                    self.player.has_hammer = False
                 self.player.type = DEFAULT_TYPE
+
+
+        # if self.player.has_hammer:
+        #     time_to_show = round((self.player.power_up_time_up - pygame.time.get_ticks())/1000, 2)
+        #     if time_to_show >=0:
+        #         font = pygame.font.Font(FONT_STYLE, 22)
+        #         text = font.render(f"Power Up: {time_to_show}", True, (255,0,0))
+        #         text_rect = text.get_rect()
+        #         text_rect.x = 425
+        #         text_rect.y = 100
+        #         self.screen.blit(text, text_rect)
+        #     else:
+        #         self.player.has_hammer = False
+        #         self.player.type = DEFAULT_TYPE
 
     def drawn_score(self):
         self.text_score = (f"HI    {self.max_score}     {self.current_score}")

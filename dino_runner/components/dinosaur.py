@@ -1,10 +1,10 @@
 import pygame
 
-from dino_runner.utils.constants import RUNNING, JUMPING, DUCKING, SONGS,  DEFAULT_TYPE,SHIELD_TYPE, DUCKING_SHIELD, JUMPING_SHIELD, RUNNING_SHIELD
+from dino_runner.utils.constants import RUNNING, JUMPING, DUCKING, SONGS,  DEFAULT_TYPE,SHIELD_TYPE, DUCKING_SHIELD, JUMPING_SHIELD, RUNNING_SHIELD, HAMMER_TYPE, DUCKING_HAMMER, JUMPING_HAMMER, RUNNING_HAMMER, SCREEN_WIDTH
 
-DUCK_IMG = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD}
-JUMP_IMG = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE:JUMPING_SHIELD}
-RUN_IMG = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE:RUNNING_SHIELD}
+DUCK_IMG = {DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD, HAMMER_TYPE: DUCKING_HAMMER}
+JUMP_IMG = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE:JUMPING_SHIELD, HAMMER_TYPE: JUMPING_HAMMER}
+RUN_IMG = {DEFAULT_TYPE: RUNNING, SHIELD_TYPE:RUNNING_SHIELD, HAMMER_TYPE: RUNNING_HAMMER}
 
 X_POS = 80
 Y_POS = 310
@@ -26,6 +26,7 @@ class Dinosaur:
         self.jump_vel = JUMP_VEL
 
         self.has_power_up = False
+        self.has_hammer = False
 
         self.jump_song = SONGS[1]
         self.jump_song.set_volume(0.05)
@@ -56,7 +57,8 @@ class Dinosaur:
         self.dino_rect.y =  Y_DUCK
         self.step_index += 1
 
-        self.dino_duck = False       
+        self.dino_duck = False
+           
     
     
     def update(self, user_input):
@@ -64,12 +66,27 @@ class Dinosaur:
             self.dino_jump = True
             self.dino_run = False
             self.jump_song.play()
-        elif not self.dino_jump:
-            self.dino_run = True
-        if (user_input[pygame.K_DOWN] or user_input[pygame.K_LSHIFT] or user_input[pygame.K_s]) and not self.dino_jump:
+       
+        elif (user_input[pygame.K_DOWN] or user_input[pygame.K_LSHIFT] or user_input[pygame.K_s]) and not self.dino_jump:
             self.dino_duck = True
             self.dino_run = False
-                   
+
+        elif not self.dino_jump:
+            self.dino_run = True
+
+        elif(user_input[pygame.K_DOWN] or user_input[pygame.K_LSHIFT] or user_input[pygame.K_s]) and self.dino_jump:
+            self.jump_vel -=2
+
+        if user_input[pygame.K_RIGHT]:
+            self.dino_rect.x +=10
+            if self.dino_rect.x >= SCREEN_WIDTH-100:
+                self.dino_rect.x = SCREEN_WIDTH-100
+            
+        elif user_input[pygame.K_LEFT]:
+            self.dino_rect.x -=10
+            if self.dino_rect.x <= 0:
+                self.dino_rect.x = 0
+
         if self.dino_run:
             self.run()
         elif self.dino_jump:
@@ -79,6 +96,8 @@ class Dinosaur:
             
         if self.step_index >= 10:
             self.step_index = 0
+            
+        
     
     def draw(self, screen):
         screen.blit(self.image, (self.dino_rect.x,self.dino_rect.y))
